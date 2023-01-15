@@ -43,32 +43,26 @@
       btns.forEach((btn) => {
         btn.addEventListener("click", () => {
           let output = document.querySelector(".output");
-          let input = btn.value 
+          let input = btn.value;
 
           if (input === "AC") {
             output.value = "";
             result = [];
           } else if (Number(input)) {
             output.value += input;
-          } else if (op_list.includes(input)) {
-            
+          } else if (op_list.includes(input) && output.value != "") {
             result.push(output.value);
-            result.push(input)
             output.value = "";
-            
-            console.log(result);
-
-            if (op_list.includes(result.at(-1))) {
-              result.pop();
-              result.push(input);
-              console.log(`result : ${result}`);
-            }
-          } else {
-            result.push(output.value)
-            output.value="연산결과"
+            result.push(input);
+          } else if (op_list.includes(input) && output.value == ""){
+            result.pop();
+            result.push(input);
+          } else if (input == "=") {
+            result.push(output.value);
+            output.value = result;
           }
 
-          console.log(typeof output.value, output.value);
+          console.log(output.value);
         });
       });
     </script>
