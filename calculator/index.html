@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <input type="text" class="output" value="" />
+      <input type="button" value="AC" class="btn hd" />
+      <input type="button" value="&divide;" class="btn op" />
+      <input type="button" value="7" class="btn" />
+      <input type="button" value="8" class="btn" />
+      <input type="button" value="9" class="btn" />
+      <input type="button" value="&times;" class="btn op" />
+      <input type="button" value="4" class="btn" />
+      <input type="button" value="5" class="btn" />
+      <input type="button" value="6" class="btn" />
+      <input type="button" value="&minus;" class="btn op" />
+      <input type="button" value="1" class="btn" />
+      <input type="button" value="2" class="btn" />
+      <input type="button" value="3" class="btn" />
+      <input type="button" value="&plus;" class="btn op" />
+      <input type="button" value="0" class="btn" />
+      <input type="button" value="." class="btn" />
+      <input type="button" value="&equals;" class="btn op" />
+    </div>
+    <script>
+      let op_list = [];
+
+      let ops = document.querySelectorAll(".op");
+      ops.forEach((op) => {
+        if (op.value != "=") {
+          op_list.push(op.value);
+        }
+      });
+      let dictOp = {"÷" : "/", "×" : "*", "−" : "-", "+" : "+"};
+
+      let btns = document.querySelectorAll(".btn");
+      btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          let output = document.querySelector(".output");
+          let input = btn.value;
+
+          if (input === "AC") {
+            output.value = "";
+          } else if (op_list.includes(input) && op_list.includes( output.value.slice(-1) ) ){
+            output.value = output.value.slice(0, output.value.length - 1)
+          } else if (input === '=') {
+            for (const [key, value] of Object.entries(dictOp)) {
+              output.value = output.value.replace(key, value);
+            }
+            try {
+              output.value = eval(output.value);
+            } catch (error) {
+              console.log(error);
+              if (!confirm("수식 오류, 초기화 하실?")) {
+                output.value = "?";
+              } else {
+                output.value = "";
+              }
+            } 
+          }
+          
+          if (input !== '=' && input !== "AC") {
+            output.value += input;
+          }
+
+          console.log(input, output.value);
+
+        });
+      });
+    </script>
+  </body>
+</html>
